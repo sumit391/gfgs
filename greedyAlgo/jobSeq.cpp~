@@ -1,0 +1,57 @@
+// Author : Sumit Chouhan
+// ETH Zürich
+// Date : 22/02/2016
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include <math.h>
+#include "../searchAndSort/mergeSort.h"
+#include <algorithm>
+using namespace std;
+
+
+int main(int argc, char **argv){
+	int num;
+	cin >> num;
+	vector<string> jobId(num);
+	vector<int> deadline(num);
+	vector<int> profit(num);
+	vector<string> resultSeq(num);	
+	// vector<int> profitSorted(num);
+	for (int i =0;i<num;i++){
+		cin >> jobId[i] >> deadline[i] >> profit[i];
+	}
+	// sort in decreasing order of profit
+	int max,flag;
+	for (int i=num;i>0;i--){
+		max = 0;flag = 0;
+		for(int j=num-i;j<num;j++){
+			if (profit[j]>max){
+				max = profit[j];flag = j;
+			}
+		}
+		swap(profit[flag],profit[num-i]);
+		swap(deadline[flag],deadline[num-i]);
+		swap(jobId[flag],jobId[num-i]);
+		//profit.swap(flag,num-i);
+		//deadline.swap(flag,num-i);
+		//jobId.swap(flag,num-i);
+	}
+	for (int i=0;i<num;i++){
+		cout << deadline[i] << jobId[i];
+	}
+	int timeChk = 1;
+	resultSeq.push_back(jobId[0]);
+	for (int i=1;i<num;i++){
+		if (deadline[i]>=(1+timeChk)){
+			timeChk++;
+			resultSeq.push_back(jobId[i]);
+		}
+	}
+	for (int i=0;i<resultSeq.size();i++){
+		if (!resultSeq[i].empty()) {cout << resultSeq[i] << endl;}
+	}
+	return 0;
+}
+
